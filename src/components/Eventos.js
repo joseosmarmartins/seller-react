@@ -8,10 +8,16 @@ class Eventos extends Component {
   state = {
     columns: [
       {
+        field: 'id',
+        headerName: 'Correlation ID',
+        type: 'string',
+        width: 150,
+      },
+      {
         field: 'data',
         headerName: 'Data',
         type: 'date',
-        width: 190,
+        width: 120,
       },
       {
         field: 'status',
@@ -23,15 +29,15 @@ class Eventos extends Component {
         field: 'descricao',
         headerName: 'Descrição',
         type: 'string',
-        width: 480
+        width: 400
       }
     ],
     eventos: []
   }
   async componentDidMount() {
     const res = await new EventoService().getAll();
-    res.data.forEach((r, i) => {
-      r.id = i
+    res.data.forEach(r => {
+      r.id = r.eventoJsonAuxiliar.correlationId
       r.status = r.eventoJsonAuxiliar.sucesso ? "Sucesso" : "Erro"
       r.data = new Date(r.eventoJsonAuxiliar.data)
       r.descricao = r.eventoJsonAuxiliar.descricao
